@@ -9,7 +9,7 @@ spieler = ("Spieler: ", "Anton", "Rafa", "Tico", "Alex", "Jens", "", "", "")
 n_spieler = 5
 offene_karten = 5
 
-# Passwörter
+# Passwoerter
 alle_p = [4, 8, 2, 9, 1, 6, 14, 7, 0, 3]
 # Anton:
 a = alle_p[0]
@@ -31,30 +31,35 @@ j = alle_p[9]
 def siehe_karten(Name_check, Name, Passwort1, Passwort2):
     if (Name_check == spieler[1]):
         if (Passwort1 == a) and (Passwort2 == b):
+            print(Name_check)
             secret(Name)
         else:
             raise Exception("Falsches Passwort")
 
     if (Name_check == spieler[2]):
         if (Passwort1 == c) and (Passwort2 == d):
+            print(Name_check)
             secret(Name)
         else:
             raise Exception("Falsches Passwort")
 
     if (Name_check == spieler[3]):
         if (Passwort1 == e) and (Passwort2 == f):
+            print(Name_check)
             secret(Name)
         else:
             raise Exception("Falsches Passwort")
 
     if (Name_check == spieler[4]):
         if (Passwort1 == g) and (Passwort2 == h):
+            print(Name_check)
             secret(Name)
         else:
             raise Exception("Falsches Passwort")
 
     if (Name_check == spieler[5]):
         if (Passwort1 == i) and (Passwort2 == j):
+            print(Name_check)
             secret(Name)
         else:
             raise Exception("Falsches Passwort")
@@ -75,103 +80,102 @@ for i in range(0, 4):
 
 
 # sonstige Funktionen
-def pot():
-    pot = (geld_sp1 + geld_sp2 + geld_sp3 + geld_sp4
-           + geld_sp5 + geld_sp6 + geld_sp7 + geld_sp8)
+def pot(geld_einsatz):
+    pot = (geld_einsatz[0] + geld_einsatz[1] + geld_einsatz[2] + geld_einsatz[3]
+           + geld_einsatz[4] + geld_einsatz[5] + geld_einsatz[6] + geld_einsatz[7])
     return int(pot)
 
 
-def sieger(sieger, bank_sp1, bank_sp2, bank_sp3, bank_sp4,
-           bank_sp5, bank_sp6, bank_sp7, bank_sp8):
+def sieger(sieger, bank, geld_einsatz, total_pot):
     if (sieger == spieler[1]):
-        bank_sp1 += pot()
-        bank_sp2 -= geld_sp2
-        bank_sp3 -= geld_sp3
-        bank_sp4 -= geld_sp4
-        bank_sp5 -= geld_sp5
-        bank_sp6 -= geld_sp6
-        bank_sp7 -= geld_sp7
-        bank_sp8 -= geld_sp8
+        bank[0] += total_pot
+        bank[1] -= geld_einsatz[1]
+        bank[2] -= geld_einsatz[2]
+        bank[3] -= geld_einsatz[3]
+        bank[4] -= geld_einsatz[4]
+        bank[5] -= geld_einsatz[5]
+        bank[6] -= geld_einsatz[6]
+        bank[7] -= geld_einsatz[7]
 
     elif (sieger == spieler[2]):
-        bank_sp1 -= geld_sp1
-        bank_sp2 += pot()
-        bank_sp3 -= geld_sp3
-        bank_sp4 -= geld_sp4
-        bank_sp5 -= geld_sp5
-        bank_sp6 -= geld_sp6
-        bank_sp7 -= geld_sp7
-        bank_sp8 -= geld_sp8
+        bank[0] -= geld_einsatz[0]
+        bank[1] += total_pot
+        bank[2] -= geld_einsatz[2]
+        bank[3] -= geld_einsatz[3]
+        bank[4] -= geld_einsatz[4]
+        bank[5] -= geld_einsatz[5]
+        bank[6] -= geld_einsatz[6]
+        bank[7] -= geld_einsatz[7]
 
     elif (sieger == spieler[3]):
-        bank_sp1 -= geld_sp1
-        bank_sp2 -= geld_sp2
-        bank_sp3 += pot()
-        bank_sp4 -= geld_sp4
-        bank_sp5 -= geld_sp5
-        bank_sp6 -= geld_sp6
-        bank_sp7 -= geld_sp7
-        bank_sp8 -= geld_sp8
+        bank[0] -= geld_einsatz[0]
+        bank[1] -= geld_einsatz[1]
+        bank[2] += total_pot
+        bank[3] -= geld_einsatz[3]
+        bank[4] -= geld_einsatz[4]
+        bank[5] -= geld_einsatz[5]
+        bank[6] -= geld_einsatz[6]
+        bank[7] -= geld_einsatz[7]
 
     elif (sieger == spieler[4]):
-        bank_sp1 -= geld_sp1
-        bank_sp2 -= geld_sp2
-        bank_sp3 -= geld_sp3
-        bank_sp4 += pot()
-        bank_sp5 -= geld_sp5
-        bank_sp6 -= geld_sp6
-        bank_sp7 -= geld_sp7
-        bank_sp8 -= geld_sp8
+        bank[0] -= geld_einsatz[0]
+        bank[1] -= geld_einsatz[1]
+        bank[2] -= geld_einsatz[2]
+        bank[3] += total_pot
+        bank[4] -= geld_einsatz[4]
+        bank[5] -= geld_einsatz[5]
+        bank[6] -= geld_einsatz[6]
+        bank[7] -= geld_einsatz[7]
 
     elif (sieger == spieler[5]):
-        bank_sp1 -= geld_sp1
-        bank_sp2 -= geld_sp2
-        bank_sp3 -= geld_sp3
-        bank_sp4 -= geld_sp4
-        bank_sp5 += pot()
-        bank_sp6 -= geld_sp6
-        bank_sp7 -= geld_sp7
-        bank_sp8 -= geld_sp8
+        bank[0] -= geld_einsatz[0]
+        bank[1] -= geld_einsatz[1]
+        bank[2] -= geld_einsatz[2]
+        bank[3] -= geld_einsatz[3]
+        bank[4] += total_pot
+        bank[5] -= geld_einsatz[5]
+        bank[6] -= geld_einsatz[6]
+        bank[7] -= geld_einsatz[7]
 
     elif (sieger == spieler[5]):
-        bank_sp1 -= geld_sp1
-        bank_sp2 -= geld_sp2
-        bank_sp3 -= geld_sp3
-        bank_sp4 -= geld_sp4
-        bank_sp5 += pot()
-        bank_sp6 -= geld_sp6
-        bank_sp7 -= geld_sp7
-        bank_sp8 -= geld_sp8
+        bank[0] -= geld_einsatz[0]
+        bank[1] -= geld_einsatz[1]
+        bank[2] -= geld_einsatz[2]
+        bank[3] -= geld_einsatz[3]
+        bank[4] += total_pot
+        bank[5] -= geld_einsatz[5]
+        bank[6] -= geld_einsatz[6]
+        bank[7] -= geld_einsatz[7]
 
     elif (sieger == spieler[6]):
-        bank_sp1 -= geld_sp1
-        bank_sp2 -= geld_sp2
-        bank_sp3 -= geld_sp3
-        bank_sp4 -= geld_sp4
-        bank_sp5 -= geld_sp5
-        bank_sp6 += pot()
-        bank_sp7 -= geld_sp7
-        bank_sp8 -= geld_sp8
+        bank[0] -= geld_einsatz[0]
+        bank[1] -= geld_einsatz[1]
+        bank[2] -= geld_einsatz[2]
+        bank[3] -= geld_einsatz[3]
+        bank[4] -= geld_einsatz[4]
+        bank[5] += total_pot
+        bank[6] -= geld_einsatz[6]
+        bank[7] -= geld_einsatz[7]
 
     elif (sieger == spieler[7]):
-        bank_sp1 -= geld_sp1
-        bank_sp2 -= geld_sp2
-        bank_sp3 -= geld_sp3
-        bank_sp4 -= geld_sp4
-        bank_sp5 -= geld_sp5
-        bank_sp6 -= geld_sp6
-        bank_sp7 += pot()
-        bank_sp8 -= geld_sp8
+        bank[0] -= geld_einsatz[0]
+        bank[1] -= geld_einsatz[1]
+        bank[2] -= geld_einsatz[2]
+        bank[3] -= geld_einsatz[3]
+        bank[4] -= geld_einsatz[4]
+        bank[5] -= geld_einsatz[5]
+        bank[6] += total_pot
+        bank[7] -= geld_einsatz[7]
 
     elif (sieger == spieler[8]):
-        bank_sp1 -= geld_sp1
-        bank_sp2 -= geld_sp2
-        bank_sp3 -= geld_sp3
-        bank_sp4 -= geld_sp4
-        bank_sp5 -= geld_sp5
-        bank_sp6 -= geld_sp6
-        bank_sp7 -= geld_sp7
-        bank_sp8 += pot()
+        bank[0] -= geld_einsatz[0]
+        bank[1] -= geld_einsatz[1]
+        bank[2] -= geld_einsatz[2]
+        bank[3] -= geld_einsatz[3]
+        bank[4] -= geld_einsatz[4]
+        bank[5] -= geld_einsatz[5]
+        bank[6] -= geld_einsatz[6]
+        bank[7] += total_pot
 
 
 def secret(Name):
@@ -212,9 +216,9 @@ def beschriftung(karte):
         )
     return Karte
 
-part = 2
+part = 2 # nehm immer die zweite Liste (dient zur Verwirrung)
 
-def offenlegen(runde):
+def offenlegen(runde, karten_im_spiel):
     breite = np.arange(0, len(karten_im_spiel[part]))
     vergeben = np.array(alle_p)
     rest = np.isin(breite, vergeben)
@@ -222,22 +226,30 @@ def offenlegen(runde):
         rest[i] = not rest[i]
     rest = list(breite[rest])
 
+    nullte = "   "
     erste = karten_im_spiel[part][rest[0]]
     zweite = karten_im_spiel[part][rest[1]]
     dritte = karten_im_spiel[part][rest[2]]
     vierte = karten_im_spiel[part][rest[3]]
-    fünfte = karten_im_spiel[part][rest[4]]
+    fuenfte = karten_im_spiel[part][rest[4]]
 
     fig, ax = plt.subplots()
 
     # Karten definieren
+    if runde == "null":
+        Karte1 = beschriftung(nullte)
+        Karte2 = beschriftung(nullte)
+        Karte3 = beschriftung(nullte)
+        Karte4 = beschriftung(nullte)
+        Karte5 = beschriftung(nullte)
+
     if (runde == "flop"):
 
         Karte1 = beschriftung(erste)
         Karte2 = beschriftung(zweite)
         Karte3 = beschriftung(dritte)
-        Karte4 = []
-        Karte5 = []
+        Karte4 = beschriftung(nullte)
+        Karte5 = beschriftung(nullte)
         print("    ", erste, "   --   ", zweite,
               "   --   ", dritte)
     elif (runde == "turn"):
@@ -245,7 +257,7 @@ def offenlegen(runde):
         Karte2 = beschriftung(zweite)
         Karte3 = beschriftung(dritte)
         Karte4 = beschriftung(vierte)
-        Karte5 = []
+        Karte5 = beschriftung(nullte)
         print("    ", erste, "   --   ", zweite,
               "   --   ", dritte, "   --   ", vierte)
     elif (runde == "river"):
@@ -253,10 +265,10 @@ def offenlegen(runde):
         Karte2 = beschriftung(zweite)
         Karte3 = beschriftung(dritte)
         Karte4 = beschriftung(vierte)
-        Karte5 = beschriftung(fünfte)
+        Karte5 = beschriftung(fuenfte)
         print("    ", erste, "   --   ", zweite,
               "   --   ", dritte, "   --   ", vierte,
-              "    --    ", fünfte)
+              "    --    ", fuenfte)
 
     # these are matplotlib.patch.Patch properties
     props = dict(boxstyle='round', facecolor='white')
@@ -275,6 +287,19 @@ def offenlegen(runde):
     plt.axis("off")
     plt.show()
 
+# bestimme wer die Blinds hat und wer anfaengt
+
+def big_blind(bb):
+    if (n_spieler - bb < 0):
+        bb = 1
+    return bb
+
+def beginn(b):
+    if (n_spieler - b < -1):
+        b = 2
+    elif (n_spieler - b < 0):
+        b = 1
+    return b
 
 # zweiter Part von Liste alle_karten ist nur interessant. Der Rest
 # dient nur zur Verwirrung
