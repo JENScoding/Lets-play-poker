@@ -330,21 +330,19 @@ def check_konto_limit(bank, geld_einsatz):
             or bank[5] - geld_einsatz[5] < 0
             or bank[6] - geld_einsatz[6] < 0
             or bank[7] - geld_einsatz[7] < 0):
-        print("Spieler hat nicht mehr genug Geld auf dem Konto")
+        print("\n", "Spieler hat nicht mehr genug Geld auf dem Konto! \n",
+              "Einsätze müssen neu festgelegt werden! \n")
     else:
-        print("Go")
+        print("\nGo\n")
 
 
 # check Konto waehrend des Spiels
-def check_konto_zwischenstand(bank, geld_einsatz):
-    print("Spieler1: ", bank[0] - geld_einsatz[0],
-          "Spieler2: ", bank[1] - geld_einsatz[1],
-          "Spieler3: ", bank[2] - geld_einsatz[2],
-          "Spieler4: ", bank[3] - geld_einsatz[3],
-          "Spieler5: ", bank[4] - geld_einsatz[4],
-          "Spieler6: ", bank[5] - geld_einsatz[5],
-          "Spieler7: ", bank[6] - geld_einsatz[6],
-          "Spieler8: ", bank[7] - geld_einsatz[7])
+def check_konto_zwischenstand(spieler, bank, geld_einsatz, n_spieler):
+    stand = {}
+    for index in range(0, n_spieler):
+        stand[f"{spieler[index + 1]}"] = (
+                int(bank[index]) - int(geld_einsatz[index]))
+    print(stand)
 
 
 # bestimme wer die Blinds hat und wer anfaengt
