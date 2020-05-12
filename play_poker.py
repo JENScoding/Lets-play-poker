@@ -113,7 +113,7 @@ def pot(geld_einsatz):
 
 def sieger(name, bank, geld_einsatz, total_pot, spieler):
     if name == spieler[1]:
-        bank[0] += total_pot
+        bank[0] += total_pot - geld_einsatz[0]
         bank[1] -= geld_einsatz[1]
         bank[2] -= geld_einsatz[2]
         bank[3] -= geld_einsatz[3]
@@ -124,7 +124,7 @@ def sieger(name, bank, geld_einsatz, total_pot, spieler):
 
     elif name == spieler[2]:
         bank[0] -= geld_einsatz[0]
-        bank[1] += total_pot
+        bank[1] += total_pot - geld_einsatz[1]
         bank[2] -= geld_einsatz[2]
         bank[3] -= geld_einsatz[3]
         bank[4] -= geld_einsatz[4]
@@ -135,7 +135,7 @@ def sieger(name, bank, geld_einsatz, total_pot, spieler):
     elif name == spieler[3]:
         bank[0] -= geld_einsatz[0]
         bank[1] -= geld_einsatz[1]
-        bank[2] += total_pot
+        bank[2] += total_pot - geld_einsatz[2]
         bank[3] -= geld_einsatz[3]
         bank[4] -= geld_einsatz[4]
         bank[5] -= geld_einsatz[5]
@@ -146,7 +146,7 @@ def sieger(name, bank, geld_einsatz, total_pot, spieler):
         bank[0] -= geld_einsatz[0]
         bank[1] -= geld_einsatz[1]
         bank[2] -= geld_einsatz[2]
-        bank[3] += total_pot
+        bank[3] += total_pot - geld_einsatz[3]
         bank[4] -= geld_einsatz[4]
         bank[5] -= geld_einsatz[5]
         bank[6] -= geld_einsatz[6]
@@ -157,7 +157,7 @@ def sieger(name, bank, geld_einsatz, total_pot, spieler):
         bank[1] -= geld_einsatz[1]
         bank[2] -= geld_einsatz[2]
         bank[3] -= geld_einsatz[3]
-        bank[4] += total_pot
+        bank[4] += total_pot - geld_einsatz[4]
         bank[5] -= geld_einsatz[5]
         bank[6] -= geld_einsatz[6]
         bank[7] -= geld_einsatz[7]
@@ -167,7 +167,7 @@ def sieger(name, bank, geld_einsatz, total_pot, spieler):
         bank[1] -= geld_einsatz[1]
         bank[2] -= geld_einsatz[2]
         bank[3] -= geld_einsatz[3]
-        bank[4] += total_pot
+        bank[4] += total_pot - geld_einsatz[4]
         bank[5] -= geld_einsatz[5]
         bank[6] -= geld_einsatz[6]
         bank[7] -= geld_einsatz[7]
@@ -178,7 +178,7 @@ def sieger(name, bank, geld_einsatz, total_pot, spieler):
         bank[2] -= geld_einsatz[2]
         bank[3] -= geld_einsatz[3]
         bank[4] -= geld_einsatz[4]
-        bank[5] += total_pot
+        bank[5] += total_pot - geld_einsatz[5]
         bank[6] -= geld_einsatz[6]
         bank[7] -= geld_einsatz[7]
 
@@ -189,7 +189,7 @@ def sieger(name, bank, geld_einsatz, total_pot, spieler):
         bank[3] -= geld_einsatz[3]
         bank[4] -= geld_einsatz[4]
         bank[5] -= geld_einsatz[5]
-        bank[6] += total_pot
+        bank[6] += total_pot - geld_einsatz[6]
         bank[7] -= geld_einsatz[7]
 
     elif name == spieler[8]:
@@ -200,7 +200,7 @@ def sieger(name, bank, geld_einsatz, total_pot, spieler):
         bank[4] -= geld_einsatz[4]
         bank[5] -= geld_einsatz[5]
         bank[6] -= geld_einsatz[6]
-        bank[7] += total_pot
+        bank[7] += total_pot - geld_einsatz[7]
 
 
 # Funktionen zum plotten
@@ -319,6 +319,26 @@ def offenlegen(runde, karten_im_spiel, n_spieler):
     plt.axis("off")
     plt.show()
 
+# check Kontolimit
+def check_konto_limit(bank, geld_einsatz):
+    if bank[0] - geld_einsatz[0] or bank[1] - geld_einsatz[1]
+        or bank[2] - geld_einsatz[2] or bank[3] - geld_einsatz[3]
+        or bank[4] - geld_einsatz[4] or bank[5] - geld_einsatz[5]
+        or bank[6] - geld_einsatz[6] or bank[7] - geld_einsatz[7]:
+        print("Spieler hat nicht mehr genug Geld auf dem Konto")
+    else:
+        print("Go")
+
+# check Konto waehrend des Spiels
+def check_konto_zwischenstand(bank, geld_einsatz):
+    print("Spieler1: ", bank[0] - geld_einsatz[0],
+          "Spieler2: ", bank[1] - geld_einsatz[1],
+          "Spieler3: ", bank[2] - geld_einsatz[2],
+          "Spieler4: ", bank[3] - geld_einsatz[3],
+          "Spieler5: ", bank[4] - geld_einsatz[4],
+          "Spieler6: ", bank[5] - geld_einsatz[5],
+          "Spieler7: ", bank[6] - geld_einsatz[6],
+          "Spieler8: ", bank[7] - geld_einsatz[7])
 
 # bestimme wer die Blinds hat und wer anfaengt
 def big_blind(bb, n_spieler):
