@@ -322,10 +322,14 @@ def offenlegen(runde, karten_im_spiel, n_spieler):
 
 # check Kontolimit
 def check_konto_limit(bank, geld_einsatz):
-    if (bank[0] - geld_einsatz[0] or bank[1] - geld_einsatz[1]
-            or bank[2] - geld_einsatz[2] or bank[3] - geld_einsatz[3]
-            or bank[4] - geld_einsatz[4] or bank[5] - geld_einsatz[5]
-            or bank[6] - geld_einsatz[6] or bank[7] - geld_einsatz[7]):
+    if (bank[0] - geld_einsatz[0] < 0
+            or bank[1] - geld_einsatz[1] < 0
+            or bank[2] - geld_einsatz[2] < 0
+            or bank[3] - geld_einsatz[3] < 0
+            or bank[4] - geld_einsatz[4] < 0
+            or bank[5] - geld_einsatz[5] < 0
+            or bank[6] - geld_einsatz[6] < 0
+            or bank[7] - geld_einsatz[7] < 0):
         print("Spieler hat nicht mehr genug Geld auf dem Konto")
     else:
         print("Go")
