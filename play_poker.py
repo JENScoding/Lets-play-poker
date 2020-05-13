@@ -371,8 +371,22 @@ def alle_karten(seed, n_spieler, offene_karten):
 
 
 # printe aktuelle Kontostaende
-def aktueller_stand(spieler, bank, n_spieler):
+def aktueller_stand(spieler, bank, n_spieler, start_geld):
     stand = {}
     for index in range(0, n_spieler):
         stand[f"{spieler[index + 1]}"] = int(bank[index])
     print(stand)
+    if np.sum(bank) != start_geld * 8:
+        print("Summe aller Konten ist nicht mehr",
+              start_geld * 8, "-> Fehlerhafte Eingabe!")
+
+
+# wer hat welche blinds
+def info_blinds(spieler, spiel_runde, n_spieler, small_b, big_b):
+    small_blind = spieler[spiel_runde]
+    print("Small Blind: ", small_blind, " -> ", small_b)
+    big_blind_sp = spieler[big_blind(spiel_runde + 1, n_spieler)]
+    print("Big Blind:   ", big_blind_sp, " -> ", big_b)
+    beginn_sp = spieler[beginn(spiel_runde + 2, n_spieler)]
+    print("Beginn:      ", beginn_sp)
+    return beginn_sp
