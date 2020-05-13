@@ -243,7 +243,7 @@ def beschriftung(karte):
     return karte
 
 
-part = 2  # nehm immer die zweite Liste (dient zur Verwirrung)
+part = 1  # nehm immer die zweite Liste (dient zur Verwirrung)
 
 
 def offenlegen(runde, karten_im_spiel, n_spieler):
