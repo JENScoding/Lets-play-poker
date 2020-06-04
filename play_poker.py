@@ -2,9 +2,11 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from IPython.display import clear_output
 
 # Passwoerter
-alle_p = [4, 8, 2, 9, 1, 6, 14, 7, 0, 3, 16, 12, 11, 17, 18, 13]
+mult = 501
+alle_p = np.array([4, 7, 2, 8, 10, 6, 12, 7, 14, 3, 16, 9, 11, 17, 18, 13]) * mult
 # Anton:
 a1 = alle_p[0]
 b1 = alle_p[1]
@@ -29,6 +31,38 @@ n1 = alle_p[13]
 # Quentin:
 o1 = alle_p[14]
 p1 = alle_p[15]
+
+
+# vor dem start Spieleranzahl, -namen etc festlegen
+def number_of_players():
+    read = input("Number of players: ")
+    return int(read)
+
+
+def player_names(n_spieler):
+    spieler = ["Spieler: ", "", "", "", "", "", "", "", ""]
+    for index in range(1, (n_spieler + 1)):
+        spieler[index] = input(f"Name of player {index}: ")
+    return tuple(spieler)
+
+
+def player_number(name, spieler, n_spieler):
+    spieler_dict = {}
+    for index in range(1, (n_spieler + 1)):
+        spieler_dict[f"{spieler[index]}"] = index
+    return spieler_dict[name]
+
+
+def your_name(spieler, n_spieler):
+    name = input("Enter your name: ")
+    print("\nDu hast die Spielernummer ", player_number(name, spieler, n_spieler))
+    return name
+
+
+def enter_password():
+    pas1 = input("Enter the first part of the password: ")
+    pas2 = input("Enter the second part of the password: ")
+    return int(pas1), int(pas2)
 
 
 # plot, wenn Passwort korrekt
@@ -360,14 +394,22 @@ def beginn(bb, n_spieler):
     return bb
 
 
-# zweiter Part von Liste alle_karten ist nur interessant. Der Rest
+# zweiter Part von Liste karten_ziehen ist nur interessant. Der Rest
 # dient nur zur Verwirrung
-def alle_karten(seed, n_spieler, offene_karten):
+def karten_ziehen(seed, n_spieler, offene_karten):
     random.seed(seed)
     spiel_karten_plus = [random.sample(karten, 15),
                          random.sample(karten, n_spieler * 2 + offene_karten),
                          random.sample(karten, 15)]
     return spiel_karten_plus
+
+# ziehe Karten mit Seed
+def enter_seed(n_spieler, offene_karten, passwort):
+    read = input("Enter the seed: ")
+    seed = int(read)
+    KarteNr1 = karten_ziehen(seed, n_spieler, offene_karten)[part][int(passwort[0] / mult)]
+    KarteNr2 = karten_ziehen(seed, n_spieler, offene_karten)[part][int(passwort[1] / mult)]
+    return KarteNr1, KarteNr2
 
 
 # printe aktuelle Kontostaende
@@ -390,3 +432,76 @@ def info_blinds(spieler, spiel_runde, n_spieler, small_b, big_b):
     beginn_sp = spieler[beginn(spiel_runde + 2, n_spieler)]
     print("Beginn:      ", beginn_sp)
     return beginn_sp
+
+
+# einmal die scheibe drehen lassen
+def clock(angle=0, ax=None):
+    circle1 = plt.Circle((2, 2), 1, color="black", fill=False)
+    rec1 = mpatches.Rectangle((1.5, 3), 1, 0.5)
+    rec2 = mpatches.Rectangle((1.95, 3), 0.1, -0.5, color="red")
+    my_col = ["green", "blue", "orange", "red", "brown", "magenta"]
+    degrees = []
+    for index in range(0, 13):
+        degrees.append(index * 30 - angle * 30)
+    wedge_odd = []
+    for index in [0, 2, 4, 6, 8, 10]:
+        wedge_odd.append(mpatches.Wedge((2, 2), 1,
+                                        degrees[index] - 15,
+                                        degrees[index + 1] - 15,
+                                        fc=my_col[int(index / 2)],
+                                        hatch="O"))
+    wedge_yel = []
+    for index in [1, 3, 5, 7, 9, 11]:
+        wedge_yel.append(mpatches.Wedge((2, 2), 1,
+                                        degrees[index] - 15,
+                                        degrees[index + 1] - 15,
+                                        fc="yellow",
+                                        hatch=""))
+    plt.text(np.sin(angle * 2 * np.pi / 12) * 0.75 + 1.9,
+             np.cos(angle * 2 * np.pi / 12) * 0.9 + 1.98, "12",
+             rotation=angle * -30,
+             size=12, color="orange")
+    plt.text(np.sin(angle * 2 * np.pi / 12 - np.pi) * 0.75 + 1.9,
+             np.cos(angle * 2 * np.pi / 12 - np.pi) * 0.9 + 1.98, "6",
+             rotation=angle * -30 + 180,
+             size=12, color="orange")
+    plt.text(np.sin(angle * 2 * np.pi / 12 - 1 / 3 * np.pi) * 0.75 + 1.9,
+             np.cos(angle * 2 * np.pi / 12 - 1 / 3 * np.pi) * 0.9 + 1.98, "10",
+             rotation=angle * -30 + 60,
+             size=12, color="orange")
+    plt.text(np.sin(angle * 2 * np.pi / 12 - 2 / 3 * np.pi) * 0.75 + 1.9,
+             np.cos(angle * 2 * np.pi / 12 - 2 / 3 * np.pi) * 0.9 + 1.98, "8",
+             rotation=angle * -30 + 120,
+             size=12, color="orange")
+    plt.text(np.sin(angle * 2 * np.pi / 12 + 2 / 3 * np.pi) * 0.75 + 1.9,
+             np.cos(angle * 2 * np.pi / 12 + 2 / 3 * np.pi) * 0.9 + 1.98, "4",
+             rotation=angle * -30 - 120,
+             size=12, color="orange")
+    plt.text(np.sin(angle * 2 * np.pi / 12 + 1 / 3 * np.pi) * 0.75 + 1.9,
+             np.cos(angle * 2 * np.pi / 12 + 1 / 3 * np.pi) * 0.9 + 1.98, "2",
+             rotation=angle * -30 - 60,
+             size=12, color="orange")
+    my_wedges = wedge_odd + wedge_yel
+    my_wedges.append(circle1)
+    my_wedges.append(rec1)
+    my_wedges.append(rec2)
+    for wedge in my_wedges:
+        ax.add_artist(wedge)
+    return my_wedges
+
+
+def rotating_disc(min_spins=100000, max_spins=150000):
+    nn = np.random.randint(min_spins, max_spins, 1)[0]
+    for rollen in range(1, nn):
+        wurf_1 = np.random.randint(1, 13, 1)
+        if (rollen / 5000).is_integer():
+            fig, ax = plt.subplots()
+            clock(angle=wurf_1[0], ax=ax)
+            ax.set_xlim([0, 4])
+            ax.set_ylim([0, 4])
+            ax.axis('equal')
+            plt.axis("off")
+            plt.show()
+            clear_output(wait=True)
+        else:
+            continue
