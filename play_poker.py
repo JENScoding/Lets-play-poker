@@ -5,8 +5,8 @@ import matplotlib.patches as mpatches
 from IPython.display import clear_output
 
 # Passwoerter
-mult = 501
-alle_p = np.array([4, 7, 2, 8, 10, 6, 12, 7, 14, 3, 16, 9, 11, 17, 18, 13]) * mult
+mult = 508
+alle_p = np.array([4, 7, 2, 8, 10, 6, 12, 5, 14, 3, 16, 9, 11, 17, 18, 13]) * mult
 # Anton:
 a1 = alle_p[0]
 b1 = alle_p[1]
@@ -34,34 +34,41 @@ p1 = alle_p[15]
 
 
 # vor dem start Spieleranzahl, -namen etc festlegen
-def number_of_players():
-    read = input("Number of players: ")
+def anzahl_spieler():
+    read = input("Anzahl Spieler: ")
     return int(read)
 
 
-def player_names(n_spieler):
+def spieler_namen(n_spieler):
     spieler = ["Spieler: ", "", "", "", "", "", "", "", ""]
     for index in range(1, (n_spieler + 1)):
-        spieler[index] = input(f"Name of player {index}: ")
+        spieler[index] = input(f"Name von Spieler {index}: ")
     return tuple(spieler)
 
 
-def player_number(name, spieler, n_spieler):
+def spieler_nummer(name, spieler, n_spieler):
     spieler_dict = {}
     for index in range(1, (n_spieler + 1)):
         spieler_dict[f"{spieler[index]}"] = index
     return spieler_dict[name]
 
 
-def your_name(spieler, n_spieler):
-    name = input("Enter your name: ")
-    print("\nDu hast die Spielernummer ", player_number(name, spieler, n_spieler))
+def dict_spieler(spieler, n_spieler):
+    spieler_dict = {}
+    for index in range(1, (n_spieler + 1)):
+        spieler_dict[index] = spieler[index]
+    return spieler_dict
+
+
+def dein_name(spieler, n_spieler):
+    name = input("Gebe deinen Namen ein: ")
+    print("\nDu hast die Spielernummer ", spieler_nummer(name, spieler, n_spieler))
     return name
 
 
 def enter_password():
-    pas1 = input("Enter the first part of the password: ")
-    pas2 = input("Enter the second part of the password: ")
+    pas1 = input("Erster Teil des Passworts: ")
+    pas2 = input("Zweiter Tel des Passworts: ")
     return int(pas1), int(pas2)
 
 
@@ -142,6 +149,9 @@ for i in range(0, 4):
 def pot(geld_einsatz):
     t_pot = (geld_einsatz[0] + geld_einsatz[1] + geld_einsatz[2] + geld_einsatz[3]
              + geld_einsatz[4] + geld_einsatz[5] + geld_einsatz[6] + geld_einsatz[7])
+
+    print("\nPot: ", int(t_pot))
+
     return int(t_pot)
 
 
@@ -364,10 +374,11 @@ def check_konto_limit(bank, geld_einsatz):
             or bank[5] - geld_einsatz[5] < 0
             or bank[6] - geld_einsatz[6] < 0
             or bank[7] - geld_einsatz[7] < 0):
-        print("\n", "Spieler hat nicht mehr genug Geld auf dem Konto! \n",
-              "Einsätze müssen neu festgelegt werden! \n")
+        message = "stop"
     else:
-        print("\nGo\n")
+        message = "go"
+
+    return message
 
 
 # check Konto waehrend des Spiels
@@ -379,17 +390,9 @@ def check_konto_zwischenstand(spieler, bank, geld_einsatz, n_spieler):
     print(stand)
 
 
-# bestimme wer die Blinds hat und wer anfaengt
+# bestimme wer die Blinds hat
 def big_blind(bb, n_spieler):
     if n_spieler - bb < 0:
-        bb = 1
-    return bb
-
-
-def beginn(bb, n_spieler):
-    if n_spieler - bb < -1:
-        bb = 2
-    elif n_spieler - bb < 0:
         bb = 1
     return bb
 
@@ -403,13 +406,65 @@ def karten_ziehen(seed, n_spieler, offene_karten):
                          random.sample(karten, 15)]
     return spiel_karten_plus
 
+
 # ziehe Karten mit Seed
+def set_seed():
+    seed = int(np.random.randint(1, 9999, 1))
+    plt.text(0, 0.8, "New seed:", size=50, color="orange")
+    plt.text(0, 0.3, seed, size=100, color="orange")
+    plt.axis("off");
+    return seed
+
+
 def enter_seed(n_spieler, offene_karten, passwort):
-    read = input("Enter the seed: ")
+    read = input("Seed: ")
     seed = int(read)
-    KarteNr1 = karten_ziehen(seed, n_spieler, offene_karten)[part][int(passwort[0] / mult)]
-    KarteNr2 = karten_ziehen(seed, n_spieler, offene_karten)[part][int(passwort[1] / mult)]
-    return KarteNr1, KarteNr2
+    karte1 = karten_ziehen(seed, n_spieler, offene_karten)[part][int(passwort[0] / mult)]
+    karte2 = karten_ziehen(seed, n_spieler, offene_karten)[part][int(passwort[1] / mult)]
+    return karte1, karte2
+
+
+# Einsaetze legen
+def bieten(geld_einsatz, erster, spieler, n_spieler, spieler_dict, fold, bank, small_b):
+    start = spieler_nummer(erster, spieler, n_spieler)
+    vorheriger = []
+    for index in range(n_spieler):
+        if index + start - n_spieler > 0:
+            gehe_zu = index + start - n_spieler
+        else:
+            gehe_zu = start + index
+
+        if fold[(gehe_zu - 1)]:
+            state = "out"
+        else:
+            read = input(f"{spieler_dict[gehe_zu]}: ")
+            if read == "fold":
+                fold[(gehe_zu - 1)] = True
+                state = geld_einsatz[(gehe_zu - 1)][0]
+            elif read == "check":
+                state = geld_einsatz[(gehe_zu - 1)][0]
+            elif index > 0 and (any(np.array(vorheriger) > int(read)) or
+                                int(read) < small_b):
+                raise Exception("Einsatz zu niedrig!")
+            else:
+                geld_einsatz[(gehe_zu - 1)] += int(read)
+                vorheriger.append(int(read))
+
+                message = check_konto_limit(bank, geld_einsatz)
+                if message == "stop":
+                    geld_einsatz[(gehe_zu - 1)] -= int(read)
+                    raise Exception(f"{spieler_dict[gehe_zu]} hat nicht"
+                                    f" mehr genug Geld auf dem Konto!"
+                                    f" Der Einsatz muss"
+                                    f" neu festgelegt werden!")
+
+                state = geld_einsatz[(gehe_zu - 1)][0]
+
+        print(f"Einsatz insgesamt {spieler_dict[index + 1]}: {state}")
+
+    print("\nGo\n")
+
+    return geld_einsatz
 
 
 # printe aktuelle Kontostaende
@@ -429,9 +484,8 @@ def info_blinds(spieler, spiel_runde, n_spieler, small_b, big_b):
     print("Small Blind: ", small_blind, " -> ", small_b)
     big_blind_sp = spieler[big_blind(spiel_runde + 1, n_spieler)]
     print("Big Blind:   ", big_blind_sp, " -> ", big_b)
-    beginn_sp = spieler[beginn(spiel_runde + 2, n_spieler)]
-    print("Beginn:      ", beginn_sp)
-    return beginn_sp
+    print("Beginn:      ", small_blind)
+    return small_blind
 
 
 # einmal die scheibe drehen lassen
