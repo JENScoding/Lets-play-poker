@@ -5,8 +5,15 @@ import matplotlib.patches as mpatches
 from IPython.display import clear_output
 
 # Passwoerter
-mult = 508
-alle_p = np.array([4, 7, 2, 8, 10, 6, 12, 5, 14, 3, 16, 9, 11, 17, 18, 13]) * mult
+mult = 528
+passwort_seed = random.seed(42)
+gen_passwoerter = []
+for index in range(16):
+    num = np.arange(2, 5 + index)
+    comp = [not x for x in np.isin(num, gen_passwoerter)]
+    num = random.sample(tuple(num[comp]), 1)
+    gen_passwoerter.append(num[0])
+alle_p = np.array(gen_passwoerter) * mult
 # Anton:
 a1 = alle_p[0]
 b1 = alle_p[1]
@@ -41,22 +48,22 @@ def anzahl_spieler():
 
 def spieler_namen(n_spieler):
     spieler = ["Spieler: ", "", "", "", "", "", "", "", ""]
-    for index in range(1, (n_spieler + 1)):
-        spieler[index] = input(f"Name von Spieler {index}: ")
+    for ind in range(1, (n_spieler + 1)):
+        spieler[ind] = input(f"Name von Spieler {ind}: ")
     return tuple(spieler)
 
 
 def spieler_nummer(name, spieler, n_spieler):
     spieler_dict = {}
-    for index in range(1, (n_spieler + 1)):
-        spieler_dict[f"{spieler[index]}"] = index
+    for ind in range(1, (n_spieler + 1)):
+        spieler_dict[f"{spieler[ind]}"] = ind
     return spieler_dict[name]
 
 
 def dict_spieler(spieler, n_spieler):
     spieler_dict = {}
-    for index in range(1, (n_spieler + 1)):
-        spieler_dict[index] = spieler[index]
+    for ind in range(1, (n_spieler + 1)):
+        spieler_dict[ind] = spieler[ind]
     return spieler_dict
 
 
@@ -292,7 +299,7 @@ part = 1  # nehm immer die zweite Liste (dient zur Verwirrung)
 
 def offenlegen(runde, karten_im_spiel, n_spieler):
     breite = np.arange(0, len(karten_im_spiel[part]))
-    vergeben = np.array(alle_p[0:(2 * n_spieler)])
+    vergeben = np.array(alle_p[0:(2 * n_spieler)]) / mult
     rest = np.isin(breite, vergeben)
     for same in range(0, rest.size):
         rest[same] = not rest[same]
